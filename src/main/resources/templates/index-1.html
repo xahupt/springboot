@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+
+    <link rel="stylesheet" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/style.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/widgets.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/jquery-ui.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/font-awesome-percy.css}" type="text/css"/>
+</head>
+<body>
+<!-- Header starts -->
+<nav class="navbar navbar-fixed-top bs-docs-nav" role="banner">
+
+    <div class="conjtainer col-12">
+        <!-- Menu button for smallar screens -->
+        <div class="navbar-header col-4">
+
+            <!-- Site name for smallar screens -->
+            <a href="\" class="navbar-brand">MacBeth</a>
+        </div>
+
+
+
+        <!-- Navigation starts -->
+        <nav class="collapse navbar-collapse bs-navbar-collapse col-12" role="navigation">
+
+
+
+            <!-- Search form -->
+            <form class="navbar-form navbar-left col-4" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </form>
+            <!-- Links -->
+            <ul class="nav navbar-nav pull-right col-auto">
+                <li class="dropdown pull-right" th:if="${session.gitHubUser == null}" href="https://github.com/login/oauth/authorize?client_id=6b386d8bfc7dbc5424dc&redirect_uri=http://localhost:8081/callback&scope=user&state=1">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="" >
+                        <i class="icon-user"></i>登陆
+                    </a>
+
+                    <!-- Dropdown menu -->
+                    <ul class="dropdown-menu">
+                        <li><a href="https://github.com/login/oauth/authorize?client_id=6b386d8bfc7dbc5424dc&redirect_uri=http://localhost:8081/callback&scope=user&state=1"><i class="icon-off"></i> Login</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown pull-right" th:if="${session.gitHubUser != null}">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="" >
+                        <i class="icon-user" th:text="|${session.gitHubUser.getName()==null?session.gitHubUser.getName():session.gitHubUser.getLogin()},你好|"></i>
+                    </a>
+
+                    <!-- Dropdown menu -->
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+                        <li><a href="#"><i class="icon-cogs"></i> Settings</a></li>
+                        <li><a href="logout"><i class="icon-off"></i> Logout</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+</nav>
+
+
+<!-- //Body -->
+
+<script src="webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/4.3.1/js/bootstrap.js"></script>
+<script th:src="@{/jquery-ui-1.9.2.custom.min.js}" src="../js/jquery-ui-1.9.2.custom.min.js"></script>
+<!--<script th:src="@{/top.js}" src="../js/top.js"></script>-->
+<!--<script th:src="@{/topRight.js}" src="../js/topRight.js"></script>-->
+<!--<script th:src="@{/jquery.noty.js}" src="../js/jquery.noty.js"></script>-->
+<!--<script th:src="@{/bottom.js}" src="../js/bottom.js"></script>-->
+<!--<script th:src="@{/jquery.js}" src="../js/jquery.js"></script>-->
+
+<!--<script th:src="@{/default.js}"></script>-->
+<!--<script th:src="@{/top.js}"></script>-->
+<!--<script th:src="@{/topRight.js}"></script>-->
+</body>
+</html>
