@@ -5,6 +5,7 @@ import com.percy.projectspring_boot.dto.GitHubUser;
 import com.percy.projectspring_boot.mapper.UserMapper;
 import com.percy.projectspring_boot.model.User;
 import com.percy.projectspring_boot.provider.GitHubProvider;
+import com.percy.projectspring_boot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

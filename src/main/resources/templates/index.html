@@ -24,17 +24,20 @@
 
         </div>
         <div class="navbar-btn col-lg-3">
-            <div class="btn-group pull-right">
+            <div class="btn-group pull-right" th:if="${session.gitHubUser == null}">
                 <!--未登录-->
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" th:if="${session.gitHubUser == null}">登陆
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" >登陆
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="https://github.com/login/oauth/authorize?client_id=6b386d8bfc7dbc5424dc&redirect_uri=http://localhost:8081/callback&scope=user&state=1">Sign in</a></li>
                     <li><a href="#">Sign up</a></li>
                 </ul>
+
+            </div>
+            <div class="btn-group pull-right" th:if="${session.gitHubUser != null}">
                 <!--已登录-->
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" th:if="${session.gitHubUser != null}">登陆
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">你好，<a th:text="${session.gitHubUser.getName()}"></a>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -42,7 +45,7 @@
                     <li><a href="#">另一个功能</a></li>
                     <li><a href="#">其他</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">分离的链接</a></li>
+                    <li><a href="logout">LogOut</a></li>
                 </ul>
             </div>
         </div>
