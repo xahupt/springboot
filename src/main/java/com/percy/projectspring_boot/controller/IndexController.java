@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.percy.projectspring_boot.mapper.BlogMapper;
 import com.percy.projectspring_boot.mapper.UserMapper;
 import com.percy.projectspring_boot.model.Blog;
+import com.percy.projectspring_boot.model.BlogUser;
 import com.percy.projectspring_boot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,15 +27,27 @@ public class IndexController {
     @Autowired
     private BlogMapper blogMapper;
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request,
+                        Model model) {
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("token")) {
                 User user = userMapper.findUser(cookie.getValue());
                 if (user != null) {
                     request.getSession().setAttribute("user",user);
+                    List<BlogUser> lists = new ArrayList<>();
+                    List<Blog> blogList = blogMapper.SelectAllBlog();
+                    for (Blog blog : blogList) {
+                        User user1 = userMapper.findUserById(blog.getAccountId());
+                        BlogUser blogUser = new BlogUser();
+                        blogUser.setBlog(blog);
+                        blogUser.setUser(user1);
+                        lists.add(blogUser);
+                    }
+                    model.addAttribute("lists",lists);
+                    break;
                 }
-                break;
+
             }
         }
         return "index";
