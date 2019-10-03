@@ -52,7 +52,7 @@
     </div>
 </nav>
 <div class="container-fluid">
-    <div class="col-lg-9">
+    <div class="col-lg-9 panel panel-default well" id="TextContent">
         <nav class="col-lg-9">
             <ul id="myTab" class="nav nav-tabs">
                 <li class="active"><a href="#tab0" data-toggle="tab">
@@ -117,7 +117,7 @@
             </ul>
         </nav>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3 panel panel-default well" id="RightContent">
         <div id="myCarousel" class="carousel slide">
             <!-- 轮播（Carousel）指标 -->
             <ol class="carousel-indicators">
@@ -149,7 +149,9 @@
         </div>
     </div>
 </div>
-
+<script>
+    document.getElementById("RightContent").setAttribute("height",document.getElementById("TextContent").getAttribute("height"));
+</script>
 <script th:src="@{/webjars/jquery/2.1.1/jquery.min.js}" src="webjars/jquery/2.1.1/jquery.min.js"></script>
 <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
         src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
