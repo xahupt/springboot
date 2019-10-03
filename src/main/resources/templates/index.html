@@ -24,7 +24,7 @@
 
         </div>
         <div class="navbar-btn col-lg-3">
-            <div class="btn-group pull-right" th:if="${session.gitHubUser == null}">
+            <div class="btn-group pull-right" th:if="${session.user == null}">
                 <!--未登录-->
                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" >登陆
                     <span class="caret"></span>
@@ -35,9 +35,9 @@
                 </ul>
 
             </div>
-            <div class="btn-group pull-right" th:if="${session.gitHubUser != null}">
+            <div class="btn-group pull-right" th:if="${session.user != null}">
                 <!--已登录-->
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">你好，<a th:text="${session.gitHubUser.getName()}"></a>
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">你好，<a th:text="${session.user.getName()}"></a>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
