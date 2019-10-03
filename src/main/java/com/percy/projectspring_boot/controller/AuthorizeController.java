@@ -54,9 +54,5 @@ public class AuthorizeController {
         }
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("gitHubUser");
-        return "redirect:/";
-    }
+
 }
