@@ -6,6 +6,7 @@ import com.percy.projectspring_boot.mapper.UserMapper;
 import com.percy.projectspring_boot.model.Blog;
 import com.percy.projectspring_boot.model.BlogUser;
 import com.percy.projectspring_boot.model.User;
+import com.sun.javaws.progress.PreloaderDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,22 +30,23 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request,
                         Model model) {
+        List<BlogUser> lists = new ArrayList<>();
+        List<Blog> blogList = blogMapper.SelectAllBlog();
+        for (Blog blog : blogList) {
+            User user1 = userMapper.findUserById(blog.getAccountId());
+            BlogUser blogUser = new BlogUser();
+            blogUser.setBlog(blog);
+            blogUser.setUser(user1);
+            lists.add(blogUser);
+        }
+        model.addAttribute("lists",lists);
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("token")) {
                 User user = userMapper.findUser(cookie.getValue());
                 if (user != null) {
                     request.getSession().setAttribute("user",user);
-                    List<BlogUser> lists = new ArrayList<>();
-                    List<Blog> blogList = blogMapper.SelectAllBlog();
-                    for (Blog blog : blogList) {
-                        User user1 = userMapper.findUserById(blog.getAccountId());
-                        BlogUser blogUser = new BlogUser();
-                        blogUser.setBlog(blog);
-                        blogUser.setUser(user1);
-                        lists.add(blogUser);
-                    }
-                    model.addAttribute("lists",lists);
+
                     break;
                 }
 
@@ -87,6 +89,7 @@ public class IndexController {
                          HttpServletResponse response) {
         request.getSession().removeAttribute("token");
         response.addCookie(new Cookie("token",""));
+        request.getSession().removeAttribute("user");
         return "redirect:/";
     }
 }

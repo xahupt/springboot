@@ -38,15 +38,29 @@ public class AuthorizeController {
         String accessToken = gitHubProvider.getAccessToken(new AccessTokenDTO(clientId, clientSecret, code, redirectUri, state));
         GitHubUser gitHubUser = gitHubProvider.getGitHubUser(accessToken);
         if (gitHubUser!=null) {
-            User user = new User();
+
+            User user;
+            user = userMapper.findUserById(String.valueOf(gitHubUser.getId()));
             String token = UUID.randomUUID().toString();
-            user.setToken(token);
-            user.setAccountId(String.valueOf(gitHubUser.getId()));
-            user.setName(gitHubUser.getName());
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            user.setSrcUrl(gitHubUser.getAvatar_url());
-            userMapper.insert(user);
+            if (user != null) {
+                //老用户更新数据
+                user.setToken(token);
+                user.setName(gitHubUser.getName());
+                user.setGmtModified(System.currentTimeMillis());
+                user.setSrcUrl(gitHubUser.getAvatar_url());
+                userMapper.updateUser(user);
+            } else {
+                //新登陆用户直接添加
+                user = new User();
+                user.setToken(token);
+                user.setAccountId(String.valueOf(gitHubUser.getId()));
+                user.setName(gitHubUser.getName());
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModified(user.getGmtCreate());
+                user.setSrcUrl(gitHubUser.getAvatar_url());
+                userMapper.insert(user);
+            }
+
             response.addCookie(new Cookie("token",token));
 //            request.getSession().setAttribute("gitHubUser",gitHubUser);
             return "redirect:/";
