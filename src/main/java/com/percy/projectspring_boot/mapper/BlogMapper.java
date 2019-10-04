@@ -3,6 +3,7 @@ package com.percy.projectspring_boot.mapper;
 import com.percy.projectspring_boot.model.Blog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -14,4 +15,10 @@ public interface BlogMapper {
 
     @Select("Select * from blog")
     List<Blog> SelectAllBlog();
+
+    @Select("Select count(1) from blog")
+    int GetBlogCount();
+
+    @Select("Select * from blog limit #{count} offset #{pos}")
+    List<Blog> getBlogList(@Param("count") int count, @Param("pos") int pos);
 }
