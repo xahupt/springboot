@@ -8,46 +8,7 @@
           href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header col-lg-3">
-            <img th:src="@{/img/logo.jpg}" class="img-circle navbar-brand">
-            <a class="navbar-brand" href="/">菜鸟教程</a>
-        </div>
-        <div class="navbar-header col-lg-6">
-            <form class="navbar-form navbar-right" role="search">
-                <span class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <button type="submit" class="btn btn-default">查询</button>
-                </span>
-            </form>
-
-        </div>
-        <div class="navbar-btn col-lg-3">
-            <div class="btn-group pull-right" th:if="${session.user == null}">
-                <!--未登录-->
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" >登陆
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="https://github.com/login/oauth/authorize?client_id=6b386d8bfc7dbc5424dc&redirect_uri=http://localhost:8081/callback&scope=user&state=1">Sign in</a></li>
-                    <li><a href="#">Sign up</a></li>
-                </ul>
-
-            </div>
-            <div class="btn-group pull-right" th:if="${session.user != null}">
-                <!--已登录-->
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">你好，<a th:text="${session.user.getName()}"></a>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li class="divider"></li>
-                    <li><a href="logout">LogOut</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</nav>
+<div th:insert="~{header::header}"></div>
 <div class="container-fluid well">
     <form class="form-horizontal">
 
