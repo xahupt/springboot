@@ -44,8 +44,8 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="blog">发布文章</a></li>
-                    <li><a href="profile/question">我的问题</a></li>
+                    <li><a href="/blog">发布文章</a></li>
+                    <li><a th:href="@{/profile/question(account_id=${session.user.getAccountId()})}">我的问题</a></li>
                     <li><a href="profile/message">我的消息</a></li>
                     <li><a href="profile/systemMsg">系统消息</a></li>
                     <li class="divider"></li>

@@ -34,10 +34,17 @@ public class BlogService {
     }
 
 
-    public Pages list(Integer page, Integer size) {
+    public Pages list(Integer page, Integer size, Integer accountId) {
         int totalCount = blogMapper.GetBlogCount();
         int pos = (page-1)*size;
-        List<Blog> blogs = blogMapper.getBlogList(size,pos);
+        List<Blog> blogs;
+        if (accountId==0){
+            blogs = blogMapper.getBlogList(size,pos);
+
+        }else{
+            blogs = blogMapper.getBlogListById(accountId);
+        }
+
         Pages pages = new Pages();
         List<BlogUserDTO> result = getBlogUserDTO(blogs);
         pages.setBlogUserDTOList(result);

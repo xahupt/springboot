@@ -24,21 +24,22 @@ public class IndexController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping("/")
+    @GetMapping ("/")
     public String index(Model model,
-                        @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
+                        @RequestParam (name = "page", defaultValue = "1") Integer page,
+                        @RequestParam (name = "size", defaultValue = "5") Integer size,
+                        @RequestParam (name = "account_id", defaultValue = "0") Integer accountId) {
 
 
         //因为首页需要添加blog的列表，所以这里增加了blogUserDTO这样一个类，里面包含了blog和user
         //BlogService主要是为了实现DTO层
-        Pages pages = blogService.list(page, size);
+        Pages pages = blogService.list(page, size, accountId);
         model.addAttribute("pages", pages);
         return "index";
     }
 
 
-    @GetMapping("/logout")
+    @GetMapping ("/logout")
     public String logout(HttpServletRequest request,
                          HttpServletResponse response) {
         request.getSession().removeAttribute("token");

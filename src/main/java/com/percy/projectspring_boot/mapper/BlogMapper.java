@@ -21,4 +21,11 @@ public interface BlogMapper {
 
     @Select("Select * from blog limit #{count} offset #{pos}")
     List<Blog> getBlogList(@Param("count") int count, @Param("pos") int pos);
+
+//    @Select("Select * from blog where account_id=#{accountId} limit #{count} offset #{pos}")
+//    List<Blog> getBlogListById(@Param("accountId") int accountId,@Param("count") int count, @Param("pos") int pos);
+
+    @Select("Select * from blog where account_id=#{accountId}")
+    List<Blog> getBlogListById(@Param("accountId") int accountId);
+
 }
