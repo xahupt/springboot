@@ -28,7 +28,7 @@
                     <div class="media-body">
                         <li class="nav-title" th:text="${page.getBlog().getTitle()}"></li>
                         <li>
-                            <a th:text="|评论数:${page.getBlog().getCommentCount()},浏览数:${page.getBlog().getViewCount()},喜欢数:${page.getBlog().getLikeCount()}|"></a>
+                            <a th:text="|评论数:${page.getBlog().getCommentCount()},浏览数:${page.getBlog().getViewCount()},喜欢数:${page.getBlog().getLikeCount()},发布时间:${#dates.format(page.getBlog().getGmtCreate(),'yyyy-MM-dd HH:mm:ss')}|"></a>
                         </li>
                     </div>
                     <hr>

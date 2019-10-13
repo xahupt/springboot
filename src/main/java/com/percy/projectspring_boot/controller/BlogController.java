@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-//这个是发布blog的控制层
+//这个是blog的控制层
 @Controller
 public class BlogController {
     @Autowired
@@ -30,10 +30,16 @@ public class BlogController {
     @ResponseBody
     public Object blogpost(@RequestBody JSONObject params) {
         Blog blog = new Blog();
-        String title = params.getString("title");
-        String content = params.getString("content");
-        String tags = params.getString("tags");
-        String accountid = params.getString("accountid");
+        String title = params.getString("title").trim();
+        String content = params.getString("content").trim();
+        String tags = params.getString("tags").trim();
+        String accountid = params.getString("accountid").trim();
+        Map<String, Object> map = new HashMap<>();
+        if(title.equals("") || content.equals("")){
+            map.put("success", true);
+            map.put("message", "标题和内容不能为空");
+            return map;
+        }
         blog.setTitle(title);
         blog.setAccountId(accountid);
         blog.setContent(content);
@@ -45,7 +51,6 @@ public class BlogController {
         blog.setViewCount(0);
 
         blogMapper.insert(blog);
-        Map<String, Object> map = new HashMap<>();
         map.put("success", true);
         map.put("message", "更新成功了！");
         return map;
