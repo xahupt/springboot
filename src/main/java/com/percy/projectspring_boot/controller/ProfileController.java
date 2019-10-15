@@ -15,6 +15,7 @@ public class ProfileController {
 
     @Autowired
     private BlogService blogService;
+
     @GetMapping ("/profile/question")
     public String Question(Model model,
                            @RequestParam (name = "page", defaultValue = "1") Integer page,
@@ -31,6 +32,7 @@ public class ProfileController {
         model.addAttribute("profile", "我的消息");
         return "profile";
     }
+
     @GetMapping ("/profile/system_msg")
     public String SystemMsg(Model model) {
         model.addAttribute("profile", "系统消息");

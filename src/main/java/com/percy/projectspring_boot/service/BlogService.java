@@ -20,7 +20,7 @@ public class BlogService {
     @Autowired
     private BlogMapper blogMapper;
 
-    private List<BlogUserDTO> getBlogUserDTO(List<Blog> blogs){
+    private List<BlogUserDTO> getBlogUserDTO(List<Blog> blogs) {
         List<BlogUserDTO> result = new ArrayList<>();
         for (Blog blog : blogs) {
             User user = userMapper.findUserById(blog.getAccountId());
@@ -36,19 +36,19 @@ public class BlogService {
 
     public Pages list(Integer page, Integer size, Integer accountId) {
         int totalCount = blogMapper.GetBlogCount();
-        int pos = (page-1)*size;
+        int pos = (page - 1) * size;
         List<Blog> blogs;
-        if (accountId==0){
-            blogs = blogMapper.getBlogList(size,pos);
+        if (accountId == 0) {
+            blogs = blogMapper.getBlogList(size, pos);
 
-        }else{
+        } else {
             blogs = blogMapper.getBlogListById(accountId);
         }
 
         Pages pages = new Pages();
         List<BlogUserDTO> result = getBlogUserDTO(blogs);
         pages.setBlogUserDTOList(result);
-        pages.setPages(totalCount,page,size);
+        pages.setPages(totalCount, page, size);
         return pages;
     }
 
@@ -61,7 +61,7 @@ public class BlogService {
     }
 
     public void InsertOrUpdata(Blog blog, String id) {
-        if (id==null){
+        if (id == null) {
             //插入
             blog.setGmtCreate(System.currentTimeMillis());
             blog.setGmtModified(blog.getGmtCreate());
@@ -69,7 +69,7 @@ public class BlogService {
             blog.setLikeCount(0);
             blog.setViewCount(0);
             blogMapper.insert(blog);
-        }else{
+        } else {
             //更新
             blog.setId(Integer.parseInt(id));
             blog.setGmtModified(System.currentTimeMillis());

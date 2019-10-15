@@ -28,6 +28,6 @@ public interface BlogMapper {
     @Select ("Select * from blog where id=#{id}")
     Blog findById(String id);
 
-    @Update("Update blog set title=#{title},content=#{content},tags=#{tags},gmt_modified=#{gmtModified} where id = #{id}")
+    @Update ("Update blog set title=#{title},content=#{content},tags=#{tags},gmt_modified=#{gmtModified} where id = #{id}")
     int updateBlog(Blog blog);
 }
