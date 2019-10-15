@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="navbar-header col-lg-3">
             <img th:src="@{/img/logo.jpg}" class="img-circle navbar-brand">
-            <a class="navbar-brand" href="/">菜鸟教程</a>
+            <a class="navbar-brand" href="/">Percy个人博客</a>
         </div>
         <div class="navbar-header col-lg-6">
             <form class="navbar-form navbar-right" role="search">
@@ -44,12 +44,12 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="/blog">发布文章</a></li>
+                    <li><a href="/publish">发布文章</a></li>
                     <li><a th:href="@{/profile/question(account_id=${session.user.getAccountId()})}">我的问题</a></li>
-                    <li><a href="profile/message">我的消息</a></li>
-                    <li><a href="profile/systemMsg">系统消息</a></li>
+                    <li><a href="/profile/message">我的消息</a></li>
+                    <li><a href="/profile/system_msg">系统消息</a></li>
                     <li class="divider"></li>
-                    <li><a href="logout">LogOut</a></li>
+                    <li><a href="/logout">LogOut</a></li>
                 </ul>
             </div>
         </div>

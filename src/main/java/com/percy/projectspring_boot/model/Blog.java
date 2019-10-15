@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Blog {
+    private int id;
     private String accountId ;
     private String title ;
     private String content;

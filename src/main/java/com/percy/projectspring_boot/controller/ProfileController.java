@@ -26,10 +26,14 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping ("profile/message")
+    @GetMapping ("/profile/message")
     public String Message(Model model) {
         model.addAttribute("profile", "我的消息");
         return "profile";
     }
-
+    @GetMapping ("/profile/system_msg")
+    public String SystemMsg(Model model) {
+        model.addAttribute("profile", "系统消息");
+        return "profile";
+    }
 }

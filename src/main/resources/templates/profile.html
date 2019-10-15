@@ -13,44 +13,48 @@
     <div class="col-lg-9">
         <span><h2 th:text="${profile}"></h2></span>
         <hr>
-        <div class="media col-lg-12" th:each="page:${pages.getBlogUserDTOList()}">
-            <div class="media-left" >
-                <span th:text="${page.getUser().getName()}"></span>
-                <a href="#">
-                    <img class="media-object img-rounded" th:src="${page.getUser().getSrcUrl()}">
-                </a>
+        <div th:if="${profile}=='我的问题'">
+
+            <div class="media col-lg-12" th:each="page:${pages.getBlogUserDTOList()}">
+                <div class="media-left">
+                    <span th:text="${page.getUser().getName()}"></span>
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${page.getUser().getSrcUrl()}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <li class="nav-title" th:text="${page.getBlog().getTitle()}">
+                    </li>
+                    <li>
+                        <a th:href="|/publish/${page.getBlog().getId()}|" th:text="|评论数:${page.getBlog().getCommentCount()},浏览数:${page.getBlog().getViewCount()},喜欢数:${page.getBlog().getLikeCount()},发布时间:${#dates.format(page.getBlog().getGmtCreate(),'yyyy-MM-dd HH:mm:ss')}|"></a>
+                    </li>
+                </div>
+                <hr>
             </div>
-            <div class="media-body">
-                <li class="nav-title" th:text="${page.getBlog().getTitle()}"></li>
-                <li>
-                    <a th:text="|评论数:${page.getBlog().getCommentCount()},浏览数:${page.getBlog().getViewCount()},喜欢数:${page.getBlog().getLikeCount()},发布时间:${#dates.format(page.getBlog().getGmtCreate(),'yyyy-MM-dd HH:mm:ss')}|"></a>
-                </li>
-            </div>
-            <hr>
         </div>
         <!--<div class="col-lg-12">-->
-            <!--<nav aria-label="Page navigation " class="col-lg-12">-->
+        <!--<nav aria-label="Page navigation " class="col-lg-12">-->
 
-                <!--<ul class="pagination pull-right">-->
-                    <!--<li th:if="${pages.isHasFirstPage()}">-->
-                        <!--<a th:href="@{/(page=1)}" aria-label="Previous">-->
-                            <!--<span aria-hidden="true">&laquo;</span>-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li><a th:href="@{/(page=${pages.getNowPage()-1})}" th:if="${pages.isHasPre()}">&lt;</a></li>-->
-                    <!--<li th:each="page:${pages.getPageList()}" th:class="${page==pages.getNowPage()}? 'active':''">-->
-                        <!--<a th:href="@{/(page=${page})}"  th:text="${page}" >-->
+        <!--<ul class="pagination pull-right">-->
+        <!--<li th:if="${pages.isHasFirstPage()}">-->
+        <!--<a th:href="@{/(page=1)}" aria-label="Previous">-->
+        <!--<span aria-hidden="true">&laquo;</span>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--<li><a th:href="@{/(page=${pages.getNowPage()-1})}" th:if="${pages.isHasPre()}">&lt;</a></li>-->
+        <!--<li th:each="page:${pages.getPageList()}" th:class="${page==pages.getNowPage()}? 'active':''">-->
+        <!--<a th:href="@{/(page=${page})}"  th:text="${page}" >-->
 
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li><a th:href="@{/(page=${pages.getNowPage()+1})}" th:if="${pages.isHasBack()}">&gt;</a></li>-->
-                    <!--<li th:if="${pages.isHasEndPage()}">-->
-                        <!--<a th:href="@{/(page=${pages.getTotalPages()})}" aria-label="Next">-->
-                            <!--<span aria-hidden="true">&raquo;</span>-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</nav>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--<li><a th:href="@{/(page=${pages.getNowPage()+1})}" th:if="${pages.isHasBack()}">&gt;</a></li>-->
+        <!--<li th:if="${pages.isHasEndPage()}">-->
+        <!--<a th:href="@{/(page=${pages.getTotalPages()})}" aria-label="Next">-->
+        <!--<span aria-hidden="true">&raquo;</span>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</nav>-->
         <!--</div>-->
     </div>
     <div class="col-lg-3">

@@ -51,4 +51,29 @@ public class BlogService {
         pages.setPages(totalCount,page,size);
         return pages;
     }
+
+    public void Insert(Blog blog) {
+        blogMapper.insert(blog);
+    }
+
+    public Blog FindBlogById(String id) {
+        return blogMapper.findById(id);
+    }
+
+    public void InsertOrUpdata(Blog blog, String id) {
+        if (id==null){
+            //插入
+            blog.setGmtCreate(System.currentTimeMillis());
+            blog.setGmtModified(blog.getGmtCreate());
+            blog.setCommentCount(0);
+            blog.setLikeCount(0);
+            blog.setViewCount(0);
+            blogMapper.insert(blog);
+        }else{
+            //更新
+            blog.setId(Integer.parseInt(id));
+            blog.setGmtModified(System.currentTimeMillis());
+            blogMapper.updateBlog(blog);
+        }
+    }
 }
