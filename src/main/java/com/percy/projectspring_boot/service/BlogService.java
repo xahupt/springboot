@@ -40,9 +40,9 @@ public class BlogService {
     public Pages list(Integer page, Integer size, Integer accountId) {
         BlogExample blogExample = new BlogExample();
 //        blogExample.createCriteria().andCommentCountIsNotNull();
-        //blogExample.createCriteria().andIdIsNotNull();
-        //long totalCount = blogMapper.selectByExample(blogExample).size();
-        long totalCount = 1;
+        blogExample.createCriteria().andIdIsNotNull();
+        long totalCount = blogMapper.selectByExample(blogExample).size();
+//        long totalCount = 1;
         int pos = (page - 1) * size;
         List<Blog> blogs;
         if (accountId == 0) {
@@ -52,7 +52,9 @@ public class BlogService {
             //blogs = blogMapper.selectByExample(blogExample);
 
         } else {
-            blogExample.createCriteria().andAccountIdEqualTo(String.valueOf(accountId));
+            blogExample.clear();
+            blogExample.createCriteria()
+                    .andAccountIdEqualTo(String.valueOf(accountId));
             blogs = blogMapper.selectByExample(blogExample);
         }
 
