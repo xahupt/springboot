@@ -17,12 +17,12 @@ public class Pages {
     private List<Integer> pageList;
     private Integer totalPages;
 
-    public void setPages(int totalCount, Integer page, Integer size) {
+    public void setPages(long totalCount, Integer page, Integer size) {
 
         if (totalCount % size == 0) {
-            totalPages = totalCount / size;
+            totalPages = Math.toIntExact(totalCount / size);
         } else {
-            totalPages = totalCount / size + 1;
+            totalPages = Math.toIntExact(totalCount / size + 1);
 
         }
         if (page<1) {

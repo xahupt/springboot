@@ -3,9 +3,8 @@ package com.percy.projectspring_boot.service;
 import com.percy.projectspring_boot.dto.BlogUserDTO;
 import com.percy.projectspring_boot.mapper.BlogMapper;
 import com.percy.projectspring_boot.mapper.UserMapper;
-import com.percy.projectspring_boot.model.Blog;
-import com.percy.projectspring_boot.model.Pages;
-import com.percy.projectspring_boot.model.User;
+import com.percy.projectspring_boot.model.*;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +22,14 @@ public class BlogService {
     private List<BlogUserDTO> getBlogUserDTO(List<Blog> blogs) {
         List<BlogUserDTO> result = new ArrayList<>();
         for (Blog blog : blogs) {
-            User user = userMapper.findUserById(blog.getAccountId());
+
+            UserExample userExample = new UserExample();
+            userExample.createCriteria()
+                    .andAccountIdEqualTo(blog.getAccountId());
+            List<User> user = userMapper.selectByExample(userExample);
             BlogUserDTO blogUserDTO = new BlogUserDTO();
             blogUserDTO.setBlog(blog);
-            blogUserDTO.setUser(user);
+            blogUserDTO.setUser(user.get(0));
             result.add(blogUserDTO);
         }
         return result;
@@ -35,14 +38,22 @@ public class BlogService {
 
 
     public Pages list(Integer page, Integer size, Integer accountId) {
-        int totalCount = blogMapper.GetBlogCount();
+        BlogExample blogExample = new BlogExample();
+//        blogExample.createCriteria().andCommentCountIsNotNull();
+        //blogExample.createCriteria().andIdIsNotNull();
+        //long totalCount = blogMapper.selectByExample(blogExample).size();
+        long totalCount = 1;
         int pos = (page - 1) * size;
         List<Blog> blogs;
         if (accountId == 0) {
-            blogs = blogMapper.getBlogList(size, pos);
+            blogExample = new BlogExample();
+            blogExample.createCriteria();
+            blogs = blogMapper.selectByExampleWithRowbounds(blogExample, new RowBounds(pos,size));
+            //blogs = blogMapper.selectByExample(blogExample);
 
         } else {
-            blogs = blogMapper.getBlogListById(accountId);
+            blogExample.createCriteria().andAccountIdEqualTo(String.valueOf(accountId));
+            blogs = blogMapper.selectByExample(blogExample);
         }
 
         Pages pages = new Pages();
@@ -57,11 +68,11 @@ public class BlogService {
     }
 
     public Blog FindBlogById(String id) {
-        return blogMapper.findById(id);
+        return blogMapper.selectByPrimaryKey(Integer.valueOf(id));
     }
 
     public void InsertOrUpdata(Blog blog, String id) {
-        if (id == null) {
+        if (id == "") {
             //插入
             blog.setGmtCreate(System.currentTimeMillis());
             blog.setGmtModified(blog.getGmtCreate());
@@ -73,7 +84,9 @@ public class BlogService {
             //更新
             blog.setId(Integer.parseInt(id));
             blog.setGmtModified(System.currentTimeMillis());
-            blogMapper.updateBlog(blog);
+            BlogExample blogExample = new BlogExample();
+            blogExample.createCriteria().andIdEqualTo(blog.getId());
+            blogMapper.updateByExample(blog, blogExample);
         }
     }
 }

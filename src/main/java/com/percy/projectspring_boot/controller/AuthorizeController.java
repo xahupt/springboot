@@ -4,6 +4,7 @@ import com.percy.projectspring_boot.dto.AccessTokenDTO;
 import com.percy.projectspring_boot.dto.GitHubUser;
 import com.percy.projectspring_boot.mapper.UserMapper;
 import com.percy.projectspring_boot.model.User;
+import com.percy.projectspring_boot.model.UserExample;
 import com.percy.projectspring_boot.provider.GitHubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -39,26 +41,31 @@ public class AuthorizeController {
         GitHubUser gitHubUser = gitHubProvider.getGitHubUser(accessToken);
         if (gitHubUser!=null) {
 
-            User user;
-            user = userMapper.findUserById(String.valueOf(gitHubUser.getId()));
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andAccountIdEqualTo(String.valueOf(gitHubUser.getId()));
+            List<User> user = userMapper.selectByExample(userExample) ;
             String token = UUID.randomUUID().toString();
-            if (user != null) {
+            if (user.size() != 0) {
                 //老用户更新数据
-                user.setToken(token);
-                user.setName(gitHubUser.getName());
-                user.setGmtModified(System.currentTimeMillis());
-                user.setSrcUrl(gitHubUser.getAvatar_url());
-                userMapper.updateUser(user);
+                User dbUser = user.get(0);
+                User updataUser = new User();
+                updataUser.setToken(token);
+                updataUser.setName(gitHubUser.getName());
+                updataUser.setGmtModified(System.currentTimeMillis());
+                updataUser.setSrcUrl(gitHubUser.getAvatar_url());
+                UserExample userExample1 = new UserExample();
+                userExample1.createCriteria().andIdEqualTo(dbUser.getId());
+                userMapper.updateByExampleSelective(updataUser, userExample1);
             } else {
                 //新登陆用户直接添加
-                user = new User();
-                user.setToken(token);
-                user.setAccountId(String.valueOf(gitHubUser.getId()));
-                user.setName(gitHubUser.getName());
-                user.setGmtCreate(System.currentTimeMillis());
-                user.setGmtModified(user.getGmtCreate());
-                user.setSrcUrl(gitHubUser.getAvatar_url());
-                userMapper.insert(user);
+                User DBuser = new User();
+                DBuser.setToken(token);
+                DBuser.setAccountId(String.valueOf(gitHubUser.getId()));
+                DBuser.setName(gitHubUser.getName());
+                DBuser.setGmtCreate(System.currentTimeMillis());
+                DBuser.setGmtModified(DBuser.getGmtCreate());
+                DBuser.setSrcUrl(gitHubUser.getAvatar_url());
+                userMapper.insert(DBuser);
             }
 
             response.addCookie(new Cookie("token",token));
